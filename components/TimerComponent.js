@@ -10,7 +10,7 @@ export default class TimerComponent extends Component {
 		this.state = {
 			  timerStart: false,
 			  stopwatchStart: false,
-			  totalDuration: 0,
+			  totalDuration: 90000,
 			  timerReset: false,
 			  stopwatchReset: false,
 		};
@@ -38,9 +38,6 @@ export default class TimerComponent extends Component {
 
 	getFormattedTime(time) {
 		this.currentTime = time;
-		this.state.totalDuration = this.state.elapsed
-
-
 	};
 
 	getTime(time){
@@ -50,6 +47,17 @@ export default class TimerComponent extends Component {
 	static navigationOptions = {
 		title: 'TIMER SCREEN',
 	};
+
+	goToScore(){
+		const {params} = this.props.navigation.state;
+		const {navigate} = this.props.navigation;
+		navigate("Scores", {
+			keepScore: params.keepScore,
+			score: params.score,
+			round: params.round,
+			letters: params.letters
+		});
+	}
 
 	render() {
 		const {navigate} = this.props.navigation;
