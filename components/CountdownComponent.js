@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet,Text,View, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet,Text,View, TouchableOpacity, Alert } from 'react-native';
 import { Timer } from 'react-native-stopwatch-timer';
 
 
@@ -14,6 +14,7 @@ export default class CountdownComponent extends Component {
 		};
 		this.toggleTimer = this.toggleTimer.bind(this);
 		this.resetTimer = this.resetTimer.bind(this);
+		this.finishAlert = this.finishAlert.bind(this);
 	}
 
 	toggleTimer() {
@@ -29,7 +30,8 @@ export default class CountdownComponent extends Component {
 	};
 
 	finishAlert(){
-		const {navigate} = this.props.navigation;
+		const {navigate} = this.props.navigation
+
 		Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
 			{text: 'No', onPress: () => console.log("No Pressed")},
 			{text: 'Yes', onPress: () => navigate('Scores')},
@@ -42,7 +44,7 @@ export default class CountdownComponent extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.bodyContainer}>
 				<Text>Team who guesses Letters use this</Text>
 
 				<Timer totalDuration={this.state.totalDuration} msecs start={this.state.timerStart}
@@ -53,13 +55,13 @@ export default class CountdownComponent extends Component {
 
 				/>
 
-				<TouchableHighlight onPress={this.toggleTimer}>
+				<TouchableOpacity onPress={this.toggleTimer}>
 					<Text style={{fontSize: 30}}>{!this.state.timerStart ? "Start" : "Stop"}</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
-				<TouchableHighlight onPress={this.resetTimer}>
+				<TouchableOpacity onPress={this.resetTimer}>
 					<Text style={{fontSize: 30}}>Reset</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 			</View>
 		);
@@ -79,3 +81,18 @@ const options = {
     marginLeft: 7,
   }
 };
+
+const styles = StyleSheet.create({
+    button: {
+        fontSize: 25,
+        color: 'white',
+        textAlign: 'center'
+    },
+    bodyContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#3498db',
+    },
+    
+});
