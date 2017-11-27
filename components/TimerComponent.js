@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer';
 
 var seconds = 0;
@@ -37,11 +37,8 @@ export default class TimerComponent extends Component {
 
 	async gotoCountdown(){
 		 await this.setState({totalTime: seconds});
-		console.log("TOTES: "+this.state.totalTime)
-
 		const {navigate} = this.props.navigation;
 		navigate('Countdown', {Time: this.state.totalTime})  //goes to Countdown
-		console.log("GO TO COUNTDOWN")
 	}
 
 
@@ -51,7 +48,7 @@ export default class TimerComponent extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.bodyContainer}>
 
 				<Text>Team who Has letters use this</Text>
 
@@ -60,13 +57,13 @@ export default class TimerComponent extends Component {
 					options={options}
 					getTime={this.getFormattedTime} />
 
-				<TouchableHighlight onPress={this.toggleStopwatch}>
+				<TouchableOpacity onPress={this.toggleStopwatch}>
 					<Text style={{fontSize: 30}}>{!this.state.stopwatchStart ? "Start" : "Stop"}</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
-				<TouchableHighlight onPress={this.resetStopwatch}>
+				<TouchableOpacity onPress={this.resetStopwatch}>
 					<Text style={{fontSize: 30}}>Reset</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 
 				<TouchableOpacity onPress={() => this.gotoCountdown()}>
@@ -99,6 +96,12 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         textAlign: 'center'
+    },
+    bodyContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#3498db',
     },
     
 });
