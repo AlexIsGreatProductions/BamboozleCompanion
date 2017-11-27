@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AppRegistry, StyleSheet,Text,View, TouchableHighlight, Alert } from 'react-native';
-import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Stopwatch } from 'react-native-stopwatch-timer';
 
-
+var seconds = 0;
 export default class TimerComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			  timerStart: false,
 			  stopwatchStart: false,
-			  totalDuration: 0,
-			  timerReset: false,
 			  stopwatchReset: false,
+			  totalTime: this.totalTime,
 		};
-		this.toggleTimer = this.toggleTimer.bind(this);
-		this.resetTimer = this.resetTimer.bind(this);
 		this.toggleStopwatch = this.toggleStopwatch.bind(this);
 		this.resetStopwatch = this.resetStopwatch.bind(this);
+		this.getFormattedTime = this.getFormattedTime.bind(this);
 	}
 
 	toggleStopwatch() {
@@ -28,31 +25,31 @@ export default class TimerComponent extends Component {
 		this.setState({stopwatchStart: false, stopwatchReset: true});
 	}
 
-	toggleTimer() {
-		this.setState({timerStart: !this.state.timerStart, timerReset: false});
-	}
-
-	resetTimer() {
-		this.setState({timerStart: false, timerReset: true});
-	}
-
 	getFormattedTime(time) {
 		this.currentTime = time;
-		this.state.totalDuration = this.state.elapsed
+
+		let a = time.split(':');
+		seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]) * 1000 + (+a[3]); 
 
 
 	};
 
-	getTime(time){
-		return time;
+
+	async gotoCountdown(){
+		 await this.setState({totalTime: seconds});
+		console.log("TOTES: "+this.state.totalTime)
+
+		const {navigate} = this.props.navigation;
+		navigate('Countdown', {Time: this.state.totalTime})  //goes to Countdown
+		console.log("GO TO COUNTDOWN")
 	}
+
 
 	static navigationOptions = {
 		title: 'TIMER SCREEN',
 	};
 
 	render() {
-		const {navigate} = this.props.navigation;
 		return (
 			<View>
 
@@ -72,29 +69,11 @@ export default class TimerComponent extends Component {
 				</TouchableHighlight>
 
 
+				<TouchableOpacity onPress={() => this.gotoCountdown()}>
+					<Text style={styles.button}>FINISH</Text>
+				</TouchableOpacity>
 
-				<Text>Team who guesses Letters use this</Text>
 
-				<Timer totalDuration={this.state.totalDuration} msecs start={this.state.timerStart}
-					reset={this.state.timerReset}
-					options={options}
-					getTime={this.getFormattedTime}
-					handleFinish={
-						Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
-							{text: 'No', onPress: () => console.log("No Pressed")},
-							{text: 'Yes', onPress: () => navigate('Scores')},
-						])
-					}
-
-				/>
-
-				<TouchableHighlight onPress={this.toggleTimer}>
-					<Text style={{fontSize: 30}}>{!this.state.timerStart ? "Start" : "Stop"}</Text>
-				</TouchableHighlight>
-
-				<TouchableHighlight onPress={this.resetTimer}>
-					<Text style={{fontSize: 30}}>Reset</Text>
-				</TouchableHighlight>
 
 			</View>
 		);
@@ -114,3 +93,12 @@ const options = {
     marginLeft: 7,
   }
 };
+
+const styles = StyleSheet.create({
+    button: {
+        fontSize: 25,
+        color: 'white',
+        textAlign: 'center'
+    },
+    
+});
