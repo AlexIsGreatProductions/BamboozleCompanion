@@ -11,7 +11,8 @@ export default class ScoresComponent extends Component {
 		}
 	}
 
-	static defaultProps = {
+	static navigationOptions = {
+		title: 'SCORES SCREEN',
 	}
 
 	render() {

@@ -26,7 +26,7 @@ export default class HomePageComponent extends Component {
 				/>
 		        <Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
 
-		        <TouchableOpacity onPress={() => navigate('Generate')}>
+		        <TouchableOpacity onPress={() => navigate('Debug')}>
 		        	<Text style={styles.button}>PLAY</Text>
 		        </TouchableOpacity>
 
