@@ -30,9 +30,8 @@ export default class HomePageComponent extends Component {
 				<StatusBar 
 					hidden={true}
 				/>
-				<View>
-		        	<Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
-				</View>
+      
+		        <Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
 		        <TouchableOpacity onPress={() => this.startGame(false)}>
 		        	<Text style={styles.button}>PLAY</Text>
 		        </TouchableOpacity>
