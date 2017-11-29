@@ -1,48 +1,84 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AppRegistry, StyleSheet,Text,View, TouchableHighlight, Alert } from 'react-native';
-import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Stopwatch } from 'react-native-stopwatch-timer';
 
-
+var seconds = 0;
 export default class TimerComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			  timerStart: false,
 			  stopwatchStart: false,
-			  totalDuration: 90000,
-			  timerReset: false,
 			  stopwatchReset: false,
+			  maxState: false,
+			  showLetters: false,
+			  letterDisplay: ''
 		};
-		this.toggleTimer = this.toggleTimer.bind(this);
-		this.resetTimer = this.resetTimer.bind(this);
 		this.toggleStopwatch = this.toggleStopwatch.bind(this);
 		this.resetStopwatch = this.resetStopwatch.bind(this);
+		this.getFormattedTime = this.getFormattedTime.bind(this);
+
+		//So this code creates a warning. This disables that warning (if I have extra Time I will try to fix it)
+		console.disableYellowBox = true;
 	}
 
 	toggleStopwatch() {
 		this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false});
+		console.log(seconds);
+		if(this.state.showLetters == false) {
+			this.showLetters()
+
+		}
 	}
 
 	resetStopwatch() {
 		this.setState({stopwatchStart: false, stopwatchReset: true});
 	}
 
-	toggleTimer() {
-		this.setState({timerStart: !this.state.timerStart, timerReset: false});
-	}
-
-	resetTimer() {
-		this.setState({timerStart: false, timerReset: true});
-	}
-
 	getFormattedTime(time) {
 		this.currentTime = time;
+		let a = time.split(':');
+		seconds = (+a[1]) * 60000 + (+a[2]) * 1000 + (+a[3]);
+
+		if(this.state.maxState == false){
+			if(a[1] == 1) {
+				this.timesUp()
+			}
+		}
+	
 	};
 
-	getTime(time){
-		return time;
+	componentDidMount(){
+		let split = '';
+		let list = this.props.navigation.state.params.letters;
+		for(let i = 0; i < list.length; i ++){
+
+			if(i == list.length-1){
+				split = split + '"' + list[i] + '"'
+			} else {
+				split = split + '"' + list[i] + '", '
+			}
+		}
+		this.setState({letterDisplay: split}) 
 	}
+
+	showLetters(){
+
+		this.setState({showLetters: true});
+
+	}
+
+	timesUp(){
+		this.setState({stopwatchStart: false, stopwatchReset: false, maxState: true});
+		alert("TIMES UP")
+	}
+
+
+	gotoCountdown(){
+		const {navigate} = this.props.navigation;
+		navigate('Countdown', {Time: seconds, letters: this.props.navigation.state.params.letters})  //goes to Countdown
+	}
+
 
 	static navigationOptions = {
 		title: 'TIMER SCREEN',
@@ -60,9 +96,10 @@ export default class TimerComponent extends Component {
 	}
 
 	render() {
-		const {navigate} = this.props.navigation;
+		let opacityText = this.state.showLetters ? 1 : 0;
+
 		return (
-			<View>
+			<View style={styles.bodyContainer}>
 
 				<Text>Team who Has letters use this</Text>
 
@@ -71,38 +108,21 @@ export default class TimerComponent extends Component {
 					options={options}
 					getTime={this.getFormattedTime} />
 
-				<TouchableHighlight onPress={this.toggleStopwatch}>
+				<TouchableOpacity onPress={this.toggleStopwatch}>
 					<Text style={{fontSize: 30}}>{!this.state.stopwatchStart ? "Start" : "Stop"}</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
-				<TouchableHighlight onPress={this.resetStopwatch}>
+				<TouchableOpacity onPress={this.resetStopwatch}>
 					<Text style={{fontSize: 30}}>Reset</Text>
-				</TouchableHighlight>
+				</TouchableOpacity>
 
 
+				<TouchableOpacity onPress={() => this.gotoCountdown()}>
+					<Text style={styles.button}>FINISH</Text>
+				</TouchableOpacity>
 
-				<Text>Team who guesses Letters use this</Text>
-
-				<Timer totalDuration={this.state.totalDuration} msecs start={this.state.timerStart}
-					reset={this.state.timerReset}
-					options={options}
-					getTime={this.getFormattedTime}
-					handleFinish={
-						Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
-							{text: 'No', onPress: () => console.log("No Pressed")},
-							{text: 'Yes', onPress: () => navigate('Scores')},
-						])
-					}
-
-				/>
-
-				<TouchableHighlight onPress={this.toggleTimer}>
-					<Text style={{fontSize: 30}}>{!this.state.timerStart ? "Start" : "Stop"}</Text>
-				</TouchableHighlight>
-
-				<TouchableHighlight onPress={this.resetTimer}>
-					<Text style={{fontSize: 30}}>Reset</Text>
-				</TouchableHighlight>
+				<Text>YOUR LETTERS</Text>
+				<Text style={[styles.letters, {opacity: opacityText}]}>{this.state.letterDisplay}</Text>
 
 			</View>
 		);
@@ -122,3 +142,24 @@ const options = {
     marginLeft: 7,
   }
 };
+
+const styles = StyleSheet.create({
+    button: {
+        fontSize: 25,
+        color: 'white',
+        textAlign: 'center',
+        marginBottom: 20
+    },
+    bodyContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#3498db',
+    },
+    letters: {
+    	fontSize: 25,
+    	color: '#f39c12',
+    	marginTop: 10
+    }
+    
+});
