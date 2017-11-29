@@ -87,12 +87,12 @@ export default class ScoresComponent extends Component {
 					<View>
                         <Text>Gestures Clues {this.state.gests[0]}</Text>
                         <Button
-                            onPress={this.changeGest(0,true)}
+                            onPress={() => this.changeGest(0,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeGest(0,false)}
+                            onPress={() => this.changeGest(0,false)}
                             title="-"
                             color="#841584"
                         />
@@ -100,12 +100,12 @@ export default class ScoresComponent extends Component {
                     <View>
                         <Text>Verbal Clues {this.state.verbals[0]}</Text>
                         <Button
-                            onPress={this.changeVerbal(0,true)}
+                            onPress={() => this.changeVerbal(0,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeVerbal(0,false)}
+                            onPress={() => this.changeVerbal(0,false)}
                             title="-"
                             color="#841584"
                         />
@@ -113,12 +113,12 @@ export default class ScoresComponent extends Component {
                     <View>
                         <Text>Cheats {this.state.cheats[0]}</Text>
                         <Button
-                            onPress={this.changeCheats(0,true)}
+                            onPress={() => this.changeCheats(0,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeCheats(0,false)}
+                            onPress={() => this.changeCheats(0,false)}
                             title="-"
                             color="#841584"
                         />
@@ -129,12 +129,12 @@ export default class ScoresComponent extends Component {
                     <View>
                         <Text>Gestures Clues {this.state.gests[1]}</Text>
                         <Button
-                            onPress={this.changeGest(1,true)}
+                            onPress={() => this.changeGest(1,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeGest(1,false)}
+                            onPress={() => this.changeGest(1,false)}
                             title="-"
                             color="#841584"
                         />
@@ -142,12 +142,12 @@ export default class ScoresComponent extends Component {
                     <View>
                         <Text>Verbal Clues {this.state.verbals[1]}</Text>
                         <Button
-                            onPress={this.changeVerbal(1,true)}
+                            onPress={() => this.changeVerbal(1,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeVerbal(1,false)}
+                            onPress={() => this.changeVerbal(1,false)}
                             title="-"
                             color="#841584"
                         />
@@ -155,12 +155,12 @@ export default class ScoresComponent extends Component {
                     <View>
                         <Text>Cheats {this.state.cheats[1]}</Text>
                         <Button
-                            onPress={this.changeCheats(1,true)}
+                            onPress={() => this.changeCheats(1,true)}
                             title="+"
                             color="#841584"
                         />
                         <Button
-                            onPress={this.changeCheats(1,false)}
+                            onPress={() => this.changeCheats(1,false)}
                             title="-"
                             color="#841584"
                         />
