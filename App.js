@@ -7,8 +7,7 @@ import HomePageComponent from "./components/HomePageComponent"
 import GenerateLettersComponent from "./components/GenerateLettersComponent"
 import TimerComponent from "./components/TimerComponent"
 import ScoresComponent from "./components/ScoresComponent"
-import DebugComponent from "./components/DebugComponent"
-import Timer2Component from "./components/Timer2Component"
+import CountdownComponent from "./components/CountdownComponent"
 
 
 const Bamboozle = StackNavigator({
@@ -24,9 +23,9 @@ const Bamboozle = StackNavigator({
   Scores: {
     screen: ScoresComponent
   },
-  Debug: {
-    screen: DebugComponent
-  },
+  Countdown: {
+    screen: CountdownComponent
+  }
 
 }, {
   headerMode: 'screen'
