@@ -76,7 +76,15 @@ export default class TimerComponent extends Component {
 
 	gotoCountdown(){
 		const {navigate} = this.props.navigation;
-		navigate('Countdown', {Time: seconds, letters: this.props.navigation.state.params.letters})  //goes to Countdown
+		const {params} = this.props.navigation.state;
+		console.log(params);
+		navigate('Countdown', {
+			Time: seconds,
+			letters: params.letters,
+			score: params.score,
+			keepScore: params.keepScore,
+			round: params.round
+		});  //goes to Countdown
 	}
 
 
@@ -84,16 +92,6 @@ export default class TimerComponent extends Component {
 		title: 'TIMER SCREEN',
 	};
 
-	goToScore(){
-		const {params} = this.props.navigation.state;
-		const {navigate} = this.props.navigation;
-		navigate("Scores", {
-			keepScore: params.keepScore,
-			score: params.score,
-			round: params.round,
-			letters: params.letters
-		});
-	}
 
 	render() {
 		let opacityText = this.state.showLetters ? 1 : 0;

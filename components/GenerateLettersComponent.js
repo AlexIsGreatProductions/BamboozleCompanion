@@ -39,6 +39,7 @@ export default class GenerateLettersComponent extends Component {
 	goToTimer(){
 		const {navigate} = this.props.navigation;
         const {params} = this.props.navigation.state;
+        console.log(params);
 		navigate('Timer', {
             keepScore: params.keepScore,
 			score: params.score,

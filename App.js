@@ -3,11 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 
-import HomePageComponent from "./components/HomePageComponent"
-import GenerateLettersComponent from "./components/GenerateLettersComponent"
-import TimerComponent from "./components/TimerComponent"
-import ScoresComponent from "./components/ScoresComponent"
-import CountdownComponent from "./components/CountdownComponent"
+import HomePageComponent from "./components/HomePageComponent";
+import GenerateLettersComponent from "./components/GenerateLettersComponent";
+import TimerComponent from "./components/TimerComponent";
+import ScoresComponent from "./components/ScoresComponent";
+import CountdownComponent from "./components/CountdownComponent";
+import TotalScoreComponent from "./components/TotalScoreComponent";
 
 
 const Bamboozle = StackNavigator({
@@ -25,6 +26,9 @@ const Bamboozle = StackNavigator({
   },
   Countdown: {
     screen: CountdownComponent
+  },
+  Totals: {
+    screen: TotalScoreComponent
   }
 
 }, {
