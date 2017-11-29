@@ -11,6 +11,8 @@ export default class CountdownComponent extends Component {
 			  timerStart: false,
 			  totalDuration: this.props.navigation.state.params.Time,
 			  timerReset: false,
+			  showLetters: false,
+			  letterDisplay: ''
 		};
 		this.toggleTimer = this.toggleTimer.bind(this);
 		this.resetTimer = this.resetTimer.bind(this);
@@ -19,6 +21,10 @@ export default class CountdownComponent extends Component {
 
 	toggleTimer() {
 		this.setState({timerStart: !this.state.timerStart, timerReset: false});
+		if(this.state.showLetters == false) {
+			this.showLetters()
+
+		}
 	}
 
 	resetTimer() {
@@ -28,6 +34,26 @@ export default class CountdownComponent extends Component {
 	getFormattedTime(time) {
 		this.currentTime = time;
 	};
+
+	componentDidMount(){
+		let split = '';
+		let list = this.props.navigation.state.params.letters;
+		for(let i = 0; i < list.length; i ++){
+
+			if(i == list.length-1){
+				split = split + '"' + list[i] + '"'
+			} else {
+				split = split + '"' + list[i] + '", '
+			}
+		}
+		this.setState({letterDisplay: split}) 
+	}
+
+	showLetters(){
+
+		this.setState({showLetters: true});
+
+	}
 
 	finishAlert(){
 		const {navigate} = this.props.navigation
@@ -43,6 +69,8 @@ export default class CountdownComponent extends Component {
 	};
 
 	render() {
+		let opacityText = this.state.showLetters ? 1 : 0
+
 		return (
 			<View style={styles.bodyContainer}>
 				<Text>Team who guesses Letters use this</Text>
@@ -62,6 +90,9 @@ export default class CountdownComponent extends Component {
 				<TouchableOpacity onPress={this.resetTimer}>
 					<Text style={{fontSize: 30}}>Reset</Text>
 				</TouchableOpacity>
+				
+				<Text>YOUR LETTERS</Text>
+				<Text style={[styles.letters, {opacity: opacityText}]}>{this.state.letterDisplay}</Text>
 
 			</View>
 		);
@@ -94,5 +125,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#3498db',
     },
+    letters: {
+    	fontSize: 25,
+    	color: '#f39c12',
+    	marginTop: 10
+    }
     
 });
