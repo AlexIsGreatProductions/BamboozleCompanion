@@ -10,15 +10,25 @@ export default class TimerComponent extends Component {
 		this.state = {
 			  stopwatchStart: false,
 			  stopwatchReset: false,
-			  totalTime: this.totalTime,
+			  maxState: false,
+			  showLetters: false,
+			  letterDisplay: ''
 		};
 		this.toggleStopwatch = this.toggleStopwatch.bind(this);
 		this.resetStopwatch = this.resetStopwatch.bind(this);
 		this.getFormattedTime = this.getFormattedTime.bind(this);
+
+		//So this code creates a warning. This disables that warning (if I have extra Time I will try to fix it)
+		console.disableYellowBox = true;
 	}
 
 	toggleStopwatch() {
 		this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false});
+		console.log(seconds)
+		if(this.state.showLetters == false) {
+			this.showLetters()
+
+		}
 	}
 
 	resetStopwatch() {
@@ -27,18 +37,46 @@ export default class TimerComponent extends Component {
 
 	getFormattedTime(time) {
 		this.currentTime = time;
-
 		let a = time.split(':');
-		seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]) * 1000 + (+a[3]); 
+		seconds = (+a[1]) * 60000 + (+a[2]) * 1000 + (+a[3]);
 
-
+		if(this.state.maxState == false){
+			if(a[1] == 1) {
+				this.timesUp()
+			}
+		}
+	
 	};
 
+	componentDidMount(){
+		let split = '';
+		let list = this.props.navigation.state.params.letters;
+		for(let i = 0; i < list.length; i ++){
 
-	async gotoCountdown(){
-		 await this.setState({totalTime: seconds});
+			if(i == list.length-1){
+				split = split + '"' + list[i] + '"'
+			} else {
+				split = split + '"' + list[i] + '", '
+			}
+		}
+		this.setState({letterDisplay: split}) 
+	}
+
+	showLetters(){
+
+		this.setState({showLetters: true});
+
+	}
+
+	timesUp(){
+		this.setState({stopwatchStart: false, stopwatchReset: false, maxState: true});
+		alert("TIMES UP")
+	}
+
+
+	gotoCountdown(){
 		const {navigate} = this.props.navigation;
-		navigate('Countdown', {Time: this.state.totalTime})  //goes to Countdown
+		navigate('Countdown', {Time: seconds, letters: this.props.navigation.state.params.letters})  //goes to Countdown
 	}
 
 
@@ -47,6 +85,8 @@ export default class TimerComponent extends Component {
 	};
 
 	render() {
+		let opacityText = this.state.showLetters ? 1 : 0
+
 		return (
 			<View style={styles.bodyContainer}>
 
@@ -70,7 +110,8 @@ export default class TimerComponent extends Component {
 					<Text style={styles.button}>FINISH</Text>
 				</TouchableOpacity>
 
-
+				<Text>YOUR LETTERS</Text>
+				<Text style={[styles.letters, {opacity: opacityText}]}>{this.state.letterDisplay}</Text>
 
 			</View>
 		);
@@ -95,7 +136,8 @@ const styles = StyleSheet.create({
     button: {
         fontSize: 25,
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: 20
     },
     bodyContainer: {
         flex: 1,
@@ -103,5 +145,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#3498db',
     },
+    letters: {
+    	fontSize: 25,
+    	color: '#f39c12',
+    	marginTop: 10
+    }
     
 });
