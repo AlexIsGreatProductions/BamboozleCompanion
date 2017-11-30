@@ -24,7 +24,7 @@ export default class TimerComponent extends Component {
 
 	toggleStopwatch() {
 		this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false});
-		console.log(seconds)
+		console.log(seconds);
 		if(this.state.showLetters == false) {
 			this.showLetters()
 
@@ -76,7 +76,15 @@ export default class TimerComponent extends Component {
 
 	gotoCountdown(){
 		const {navigate} = this.props.navigation;
-		navigate('Countdown', {Time: seconds, letters: this.props.navigation.state.params.letters})  //goes to Countdown
+		const {params} = this.props.navigation.state;
+		console.log(params);
+		navigate('Countdown', {
+			Time: seconds,
+			letters: params.letters,
+			score: params.score,
+			keepScore: params.keepScore,
+			round: params.round
+		});  //goes to Countdown
 	}
 
 
@@ -84,8 +92,9 @@ export default class TimerComponent extends Component {
 		title: 'TIMER SCREEN',
 	};
 
+
 	render() {
-		let opacityText = this.state.showLetters ? 1 : 0
+		let opacityText = this.state.showLetters ? 1 : 0;
 
 		return (
 			<View style={styles.bodyContainer}>

@@ -56,11 +56,16 @@ export default class CountdownComponent extends Component {
 	}
 
 	finishAlert(){
-		const {navigate} = this.props.navigation
-
+		const {navigate} = this.props.navigation;
+		const {params} = this.props.navigation.state;
+		console.log(params);
 		Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
 			{text: 'No', onPress: () => console.log("No Pressed")},
-			{text: 'Yes', onPress: () => navigate('Scores')},
+			{text: 'Yes', onPress: () => navigate('Scores', {
+				score: params.score,
+				keepScore: params.keepScore,
+				round: params.round
+			})},
 		])
 	}
 
