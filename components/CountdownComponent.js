@@ -59,14 +59,25 @@ export default class CountdownComponent extends Component {
 		const {navigate} = this.props.navigation;
 		const {params} = this.props.navigation.state;
 		console.log(params);
-		Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
-			{text: 'No', onPress: () => console.log("No Pressed")},
-			{text: 'Yes', onPress: () => navigate('Scores', {
-				score: params.score,
-				keepScore: params.keepScore,
-				round: params.round
-			})},
-		])
+		if(params.keepScore == true) {
+			Alert.alert('TIMES UP', 'Would you like to proceed to the Score sheet?', [
+				{text: 'No', onPress: () => console.log("No Pressed")},
+				{text: 'Yes', onPress: () => navigate('Scores', {
+					score: params.score,
+					keepScore: params.keepScore,
+					round: params.round
+				})},
+			])
+		} else {
+			Alert.alert('TIMES UP', 'Would you like to Start a new Round?', [
+				{text: 'No', onPress: () => console.log("No Pressed")},
+				{text: 'Yes', onPress: () => navigate('Generate', {
+					score: params.score,
+					keepScore: params.keepScore,
+					round: params.round +1
+				})},
+			])
+		}
 	}
 
 	static navigationOptions = {
@@ -78,6 +89,9 @@ export default class CountdownComponent extends Component {
 
 		return (
 			<View style={styles.bodyContainer}>
+
+				<Text style={styles.letters}>Round: {this.props.navigation.state.params.round}</Text>
+
 				<Text>Team who guesses Letters use this</Text>
 
 				<Timer totalDuration={this.state.totalDuration} msecs start={this.state.timerStart}

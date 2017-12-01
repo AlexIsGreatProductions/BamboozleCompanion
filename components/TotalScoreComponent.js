@@ -22,7 +22,7 @@ export default class TotalScoreComponent extends Component {
     }
 
     static navigationOptions = {
-        title: 'SCORES SCREEN',
+        title: 'TOTALS SCREEN',
     };
 
     componentDidMount(){
@@ -32,6 +32,7 @@ export default class TotalScoreComponent extends Component {
     getCurrentScore(){
         const {params} = this.props.navigation.state;
         console.log("Params: "+params);
+        console.log("Scores: "+params.score)
         this.setState({
             score: params.score,
             currentRound: params.round,
@@ -59,9 +60,9 @@ export default class TotalScoreComponent extends Component {
                 <Text>Team 2 Current Score: {this.state.team2Score}</Text>
                 <View>
                     <Text>Team 1</Text>
-                    <Text>Gestures Clues {team1Gest}</Text>
+                    <Text>Gestures Clues {this.state.team1Gest}</Text>
                     <Button
-                        onPress={onPressLearnMore}
+                        onPress={console.log("WORKS")}
                         title="+"
                         color="#841584"
                         accessibilityLabel="Learn more about this purple button"

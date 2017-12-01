@@ -77,6 +77,7 @@ export default class TimerComponent extends Component {
 	gotoCountdown(){
 		const {navigate} = this.props.navigation;
 		const {params} = this.props.navigation.state;
+		this.setState({stopwatchStart: false, stopwatchReset: false});
 		console.log(params);
 		navigate('Countdown', {
 			Time: seconds,
@@ -98,6 +99,8 @@ export default class TimerComponent extends Component {
 
 		return (
 			<View style={styles.bodyContainer}>
+
+				<Text style={styles.letters}>Round: {this.props.navigation.state.params.round}</Text>
 
 				<Text>Team who Has letters use this</Text>
 
