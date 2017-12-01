@@ -46,6 +46,7 @@ export default class ScoresComponent extends Component {
 			team1Score: temp1,
 			team2Score: temp2
 		})
+		this.teamScores();
 	}
 
 	changeGest(team, up){
@@ -55,17 +56,20 @@ export default class ScoresComponent extends Component {
             if ((tempActs[team] < 5) && (temp[team] < 5)) {
                 temp[team]++; //increase the amount of Gesture Clues for that team
                 tempActs[team]++;
+                this.teamScores();
             }
         } else {
             if ((tempActs[team] > 0) && (temp[team] > 0)) {
                 temp[team]--; //decrease the amount of Gesture Clues for that team
                 tempActs[team]--;
+                this.teamScores();
             }
         }
 		this.setState({
             gests: temp,
             teamActions: tempActs
 		});
+		
 	}
 
     changeVerbal(team, up){
@@ -86,6 +90,7 @@ export default class ScoresComponent extends Component {
             verbals: temp,
             teamActions: tempActs
         });
+        this.teamScores();
     }
 
     changeCheats(team, up){
@@ -95,6 +100,7 @@ export default class ScoresComponent extends Component {
             if ((tempActs[team] < 5) && (temp[team] < 5)) {
                 temp[team]++; //increase the amount of Cheats for that team
                 tempActs[team]++;
+                this.teamScores();
             }
         } else {
             if ((tempActs[team] > 0) && (temp[team] > 0)) {
@@ -106,7 +112,37 @@ export default class ScoresComponent extends Component {
             cheats: temp,
             teamActions: tempActs
         });
+        
     }
+
+    gotoTotals(){
+    	this.teamScores();
+		const {navigate} = this.props.navigation;
+		const {params} = this.props.navigation.state;
+		console.log("TEAM 1: " + this.state.team1Score)
+		console.log("TEAM 2: " + this.state.team2Score)
+		console.log(params);
+		let roundscoretmp = [this.state.team1Score, this.state.team2Score]
+		params.score.push(roundscoretmp);
+		console.log("SCOREz: " + params.score)
+		navigate('Totals', {
+			letters: params.letters,
+			score: params.score,
+			keepScore: params.keepScore,
+			round: params.round
+		});  //goes to TotalsComponent
+	}
+
+	teamScores(){
+		let t1s;
+		let t2s;
+
+		t1s = ((this.state.gests[0] * 2) + (this.state.verbals[0]) - this.state.cheats[0]);
+
+		t2s = ((this.state.gests[1] * 2) + (this.state.verbals[1]) - this.state.cheats[1]);
+
+		this.setState({team1Score: t1s, team2Score: t2s})
+	}
 
 	render() {
 
@@ -218,6 +254,10 @@ export default class ScoresComponent extends Component {
                         />
                     </View>
                 </View>
+
+                <TouchableOpacity onPress={() => this.gotoTotals()}>
+					<Text style={styles.button}>FINISH</Text>
+				</TouchableOpacity>
 			</View>
 		)
 
@@ -231,7 +271,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     scoreButts: {
-        color: "#841584"
+        //color: "#841584"
     },
     bodyContainer: {
         flex: 1,
@@ -254,6 +294,11 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: '#f39c12',
         marginTop: 10
+    },
+       button: {
+        fontSize: 25,
+        color: 'white',
+        textAlign: 'center'
     }
 
 });

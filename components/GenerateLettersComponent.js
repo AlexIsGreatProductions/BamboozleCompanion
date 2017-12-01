@@ -55,7 +55,7 @@ export default class GenerateLettersComponent extends Component {
 			<View style={styles.bodyContainer}>
 				<Text style={styles.textStyle}>Letters are ready!</Text>
 				<TouchableOpacity onPress={() => this.goToTimer()}>
-					<Text style={styles.button}>Start Round</Text>
+					<Text style={styles.button}>Start Round {this.props.navigation.state.params.round}</Text>
 				</TouchableOpacity>
 			</View>
 		)
