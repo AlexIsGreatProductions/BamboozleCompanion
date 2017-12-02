@@ -4,10 +4,10 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 const letters = [
 	['A','B','C','D','E','F'],
-	['G','H','I','J','K',' '],
-	['L','M','N','O','P',' '],
-	['Q','R','S','T','U',' '],
-	['V','W','X','Y','Z',' ']
+	['G','H','I','J','K','*'],
+	['L','M','N','O','P','*'],
+	['Q','R','S','T','U','*'],
+	['V','W','X','Y','Z','*']
 ]
 
 export default class GenerateLettersComponent extends Component {
