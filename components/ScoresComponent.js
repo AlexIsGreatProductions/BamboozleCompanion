@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Button, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -100,7 +100,6 @@ export default class ScoresComponent extends Component {
             if ((tempActs[team] < 5) && (temp[team] < 5)) {
                 temp[team]++; //increase the amount of Cheats for that team
                 tempActs[team]++;
-                this.teamScores();
             }
         } else {
             if ((tempActs[team] > 0) && (temp[team] > 0)) {
@@ -112,25 +111,20 @@ export default class ScoresComponent extends Component {
             cheats: temp,
             teamActions: tempActs
         });
-        
+        this.teamScores();
     }
 
     gotoTotals(){
     	this.teamScores();
 		const {navigate} = this.props.navigation;
 		const {params} = this.props.navigation.state;
-		console.log("TEAM 1: " + this.state.team1Score)
-		console.log("TEAM 2: " + this.state.team2Score)
-		console.log(params);
-		let roundscoretmp = [this.state.team1Score, this.state.team2Score]
-		params.score.push(roundscoretmp);
-		console.log("SCOREz: " + params.score)
 		navigate('Totals', {
 			letters: params.letters,
-			score: params.score,
+			score: params.score.push([this.state.team1Score, this.state.team2Score]),
 			keepScore: params.keepScore,
 			round: params.round
 		});  //goes to TotalsComponent
+
 	}
 
 	teamScores(){
@@ -149,114 +143,170 @@ export default class ScoresComponent extends Component {
 
 		return (
 			<View style={styles.bodyContainer}>
-				<Text>Current Round: {this.state.currentRound}</Text>
-				<Text>Team 1 Current Score: {this.state.team1Score}</Text>
-				<Text>Team 2 Current Score: {this.state.team2Score}</Text>
+				<Text style={styles.letters}>Current Round: {this.state.currentRound}</Text>
 				<View style={styles.team}>
-					<Text>Team 1</Text>
+					<Text style={styles.teamTitle}>Team 1</Text>
 					<View style={styles.teamRow}>
-                        <Text>Gestures Clues </Text>
+                        <Text>Gestures Clues: </Text>
                         <Text style={styles.valueText}>{this.state.gests[0]}</Text>
-                        <Icon.Button
-                            id = "team1GestsPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeGest(0,true)}
-                        />
-                        <Icon.Button
-                            id = "team1GestsMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeGest(0,false)}
-                        />
+                    </View>
+                    <View style={styles.teamRow}>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeGest(0,true)}>
+		                        <Icon
+		                            id = "team1GestsPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeGest(0,false)}>
+	                        <Icon
+	                            id = "team1GestsMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+                        </TouchableOpacity>
 					</View>
                     <View style={styles.teamRow}>
-                        <Text>Verbal Clues </Text>
+                        <Text>Verbal Clues: </Text>
                         <Text style={styles.valueText}>{this.state.verbals[0]}</Text>
-                        <Icon.Button
-                            id = "team1VerbalPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeVerbal(0,true)}
-                        />
-                        <Icon.Button
-                            id = "team1VerbalMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeVerbal(0,false)}
-                        />
                     </View>
                     <View style={styles.teamRow}>
-                        <Text>Cheats </Text>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeVerbal(0,true)}>
+		                        <Icon
+		                            id = "team1VerbalPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeVerbal(0,false)}>
+	                        <Icon
+	                            id = "team1VerbalMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.teamRow}>
+                        <Text>Cheats: </Text>
                         <Text style={styles.valueText}>{this.state.cheats[0]}</Text>
-                        <Icon.Button
-                            id = "team1CheatsPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeCheats(0,true)}
-                        />
-                        <Icon.Button
-                            id = "team1CheatsMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeCheats(0,false)}
-                        />
                     </View>
+                    <View style={styles.teamRow}>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeCheats(0,true)}>
+		                        <Icon
+		                            id = "team1CheatsPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeCheats(0,false)}>
+	                        <Icon
+	                            id = "team1CheatsMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+						</TouchableOpacity>
+
+                    </View>
+                    <View style={styles.teamRow}>
+                		<Text style={styles.score}>Team 1 Current Score: </Text>
+                		<Text style={styles.valueText}>{this.state.team1Score}</Text>
+                	</View>
 				</View>
-                <View>
-                    <Text>Team 2</Text>
+                <View style={styles.team}>
+                    <Text style={styles.teamTitle}>Team 2</Text>
                     <View style={styles.teamRow}>
-                        <Text style={{flex:7}}>Gestures Clues </Text>
+                        <Text>Gestures Clues: </Text>
                         <Text style={styles.valueText}>{this.state.gests[1]}</Text>
-                        <Icon.Button
-                            id = "team2GestsPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeGest(1,true)}
-                        />
-                        <Icon.Button
-                            id = "team2GestsMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeGest(1,false)}
-                        />
                     </View>
                     <View style={styles.teamRow}>
-                        <Text>Verbal Clues </Text>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeGest(1,true)}>
+		                        <Icon
+		                            id = "team1GestsPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeGest(1,false)}>
+	                        <Icon
+	                            id = "team1GestsMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+                        </TouchableOpacity>
+					</View>
+                    <View style={styles.teamRow}>
+                        <Text>Verbal Clues: </Text>
                         <Text style={styles.valueText}>{this.state.verbals[1]}</Text>
-                        <Icon.Button
-                            id = "team2VerbalPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeVerbal(1,true)}
-                        />
-                        <Icon.Button
-                            id = "team2VerbalMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeVerbal(1,false)}
-                        />
                     </View>
                     <View style={styles.teamRow}>
-                        <Text>Cheats </Text>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeVerbal(1,true)}>
+		                        <Icon
+		                            id = "team1VerbalPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeVerbal(1,false)}>
+	                        <Icon
+	                            id = "team1VerbalMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.teamRow}>
+                        <Text>Cheats: </Text>
                         <Text style={styles.valueText}>{this.state.cheats[1]}</Text>
-                        <Icon.Button
-                            id = "team2CheatsPlus"
-                            name="plus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeCheats(1,true)}
-                        />
-                        <Icon.Button
-                            id = "team2CheatsMinus"
-                            name="minus-square"
-                            style={styles.scoreButts}
-                            onPress={() => this.changeCheats(1,false)}
-                        />
+                    </View>
+                    <View style={styles.teamRow}>
+                    	<View style={styles.margin}>
+	                    	<TouchableOpacity onPress={() => this.changeCheats(1,true)}>
+		                        <Icon
+		                            id = "team1CheatsPlus"
+		                            name="plus-square"
+		                            size = {30}
+		                            color = "#841584"
+		                        />
+	                        </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity onPress={() => this.changeCheats(1,false)}>
+	                        <Icon
+	                            id = "team1CheatsMinus"
+	                            name="minus-square"
+	                            size = {30}
+	                            color = "#841584"
+	                        />
+						</TouchableOpacity>
+
+                    </View>
+                    <View style={styles.teamRow}>
+                    	<Text style={styles.score}>Team 2 Current Score: </Text>
+                    	<Text style={styles.valueText}>{this.state.team2Score}</Text>
                     </View>
                 </View>
 
                 <TouchableOpacity onPress={() => this.gotoTotals()}>
-					<Text style={styles.button}>FINISH</Text>
+					<Text style={styles.button}>PROCEED</Text>
 				</TouchableOpacity>
 			</View>
 		)
@@ -265,16 +315,8 @@ export default class ScoresComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    button: {
-        fontSize: 25,
-        color: 'white',
-        textAlign: 'center'
-    },
-    scoreButts: {
-        //color: "#841584"
-    },
     bodyContainer: {
-        flex: 1,
+        flex: 10,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#3498db'
@@ -282,23 +324,42 @@ const styles = StyleSheet.create({
     teamRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: 4
     },
     team: {
-        flexDirection: 'column'
+    	flex: 3,
+        flexDirection: 'column',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginBottom: 5,
+        padding: 1,
+        width: Dimensions.get('window').width*.75
     },
     valueText: {
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        left: Dimensions.get('window').width*.55,
+        position: 'absolute'
     },
     letters: {
         fontSize: 25,
-        color: '#f39c12',
-        marginTop: 10
+        color: '#f39c12'
     },
-       button: {
+    button: {
         fontSize: 25,
         color: 'white',
         textAlign: 'center'
-    }
+    },
+    teamTitle: {
+    	fontSize: 20,
+    	alignSelf: 'center'
+    },
+    score: {
+    	alignSelf: 'center'
+    },
+    margin: {
+    	marginRight: 5
+    },
 
 });
