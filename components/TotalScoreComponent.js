@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Text, View, Button, TouchableOpacity, StyleSheet, Alert, TextInput} from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Table, Row, Rows } from 'react-native-table-component';
 import email from 'react-native-email';
+import renderIf from './renderIf';
 
 
 const widthArr = [100, 100, 100];
@@ -51,8 +52,6 @@ export default class TotalScoreComponent extends Component {
         this.setState({
             score: params.score,
             currentRound: params.round,
-            // score: [[4,8],[3,6],[10,8],[8,5],[9,5]],
-            // currentRound: 5,
             keepScore: params.keepScore
         });
     }
@@ -109,12 +108,12 @@ export default class TotalScoreComponent extends Component {
         let now = new Date();
         let subject = "Bamboozle Game "+ now.toDateString();
         body += "Date: "+ now.toDateString()+"\n\n";
-        body += "----------------------------------\n";
-        body += "|  Round    |  Team 1  |  Team 2 |\n";
+        body += this.state.header[0]+"     "+this.state.header[1]+"     "+this.state.header[2]+"\n";
         for (let i=0; i<this.state.currentRound; i++){
-            body += "|  "+(this.state.tableData[i][0]+"  |     "+ this.state.tableData[i][1]+"    |    "+ this.state.tableData[i][2])+"    |\n";
+            body += this.state.tableData[i][0]+"     "+ this.state.tableData[i][1]+"           "+ this.state.tableData[i][2]+"\n";
         }
-        body += "----------------------------------\n\nThank You for playing.";
+        body += this.state.footer[0]+"         "+this.state.footer[1]+"           "+this.state.footer[2];
+        body += "\n\nThank You for playing.\n\n";
         console.log("Recipient: "+ this.state.recipient);
         console.log(body);
         let to = this.state.recipient;
@@ -134,68 +133,76 @@ export default class TotalScoreComponent extends Component {
 
     render() {
 
-        let opacityNextRound = this.state.gameEnd ? 0 : 1;
-        let opacityTeam1 = this.state.team1Win ? 1 : 0;
-        let opacityTeam2 = this.state.team2Win ? 1 : 0;
-        let opacityDraw = this.state.draw ? 1 : 0;
+        let showNextRound = !this.state.gameEnd;
+        let showTeam1 = this.state.team1Win;
+        let showTeam2 = this.state.team2Win;
+        let showDraw = this.state.draw;
         return (
             <View style={styles.bodyContainer}>
-                <Text>Current Round: {this.state.currentRound}</Text>
+                <Text style={styles.letters}>Current Round: {this.state.currentRound}</Text>
                 <Table style={styles.table}>
                     <Row data={this.state.header} style={styles.head} textStyle={styles.headText} widthArr={widthArr}/>
                     <Rows data={this.state.tableData} style={styles.list} textStyle={styles.listText} widthArr={widthArr}/>
                     <Row data={this.state.footer} style={styles.foot} textStyle={styles.headText} widthArr={widthArr}/>
                 </Table>
-                <View style={{opacity: opacityNextRound}}>
-                    <TouchableOpacity onPress={() => this.goToNextRound()}>
-                        <Text style={styles.button}>NEXT ROUND</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{opacity: opacityTeam1}}>
-                    <Text style={styles.winner}>Team 1 Wins!!!</Text>
-                    <TouchableOpacity onPress={() => this.endGame()}>
-                        <Text style={styles.button}>END GAME</Text>
-                    </TouchableOpacity>
-                    <TextInput
-                        style={styles.email}
-                        placeholder={emailPlaceholder}
-                        value={this.state.recipient}
-                        onChangeText={(value) => this.setState({recipient: value})}
-                    />
-                    <TouchableOpacity onPress={() => this.mailScore()}>
-                        <Text style={styles.button}>MAIL SCORE</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{opacity: opacityTeam2}}>
-                    <Text style={styles.winner}>Team 2 Wins!!!</Text>
-                    <TouchableOpacity onPress={() => this.endGame()}>
-                        <Text style={styles.button}>END GAME</Text>
-                    </TouchableOpacity>
-                    <TextInput
-                        style={styles.email}
-                        placeholder={emailPlaceholder}
-                        value={this.state.recipient}
-                        onChangeText={(value) => this.setState({recipient: value})}
-                    />
-                    <TouchableOpacity onPress={() => this.mailScore()}>
-                        <Text style={styles.button}>MAIL SCORE</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{opacity: opacityDraw}}>
-                    <Text style={styles.winner}>Both Teams Win!!!</Text>
-                    <TouchableOpacity onPress={() => this.endGame()}>
-                        <Text style={styles.button}>END GAME</Text>
-                    </TouchableOpacity>
-                    <TextInput
-                        style={styles.email}
-                        placeholder={emailPlaceholder}
-                        value={this.state.recipient}
-                        onChangeText={(value) => this.setState({recipient: value})}
-                    />
-                    <TouchableOpacity onPress={() => this.mailScore()}>
-                        <Text style={styles.button}>MAIL SCORE</Text>
-                    </TouchableOpacity>
-                </View>
+                {renderIf(showNextRound)(
+                    <View>
+                        <TouchableOpacity onPress={() => this.goToNextRound()}>
+                            <Text style={styles.button}>NEXT ROUND</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                {renderIf(showTeam1)(
+                    <View>
+                        <Text style={[styles.winner, styles.team1]}>Team 1 Wins!!!</Text>
+                        <TouchableOpacity onPress={() => this.endGame()}>
+                            <Text style={styles.button}>END GAME</Text>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.email}
+                            placeholder={emailPlaceholder}
+                            value={this.state.recipient}
+                            onChangeText={(value) => this.setState({recipient: value})}
+                        />
+                        <TouchableOpacity onPress={() => this.mailScore()}>
+                            <Text style={styles.button}>MAIL SCORE</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                {renderIf(showTeam2)(
+                    <View>
+                        <Text style={[styles.winner, styles.team2]}>Team 2 Wins!!!</Text>
+                        <TouchableOpacity onPress={() => this.endGame()}>
+                            <Text style={styles.button}>END GAME</Text>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.email}
+                            placeholder={emailPlaceholder}
+                            value={this.state.recipient}
+                            onChangeText={(value) => this.setState({recipient: value})}
+                        />
+                        <TouchableOpacity onPress={() => this.mailScore()}>
+                            <Text style={styles.button}>MAIL SCORE</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                {renderIf(showDraw)(
+                    <View>
+                        <Text style={styles.winner}>Both Teams Win!!!</Text>
+                        <TouchableOpacity onPress={() => this.endGame()}>
+                            <Text style={styles.button}>END GAME</Text>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.email}
+                            placeholder={emailPlaceholder}
+                            value={this.state.recipient}
+                            onChangeText={(value) => this.setState({recipient: value})}
+                        />
+                        <TouchableOpacity onPress={() => this.mailScore()}>
+                            <Text style={styles.button}>MAIL SCORE</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         )
 
@@ -211,6 +218,12 @@ const styles = StyleSheet.create({
     winner: {
         fontSize: 25
     },
+    team1: {
+        color: '#C96A9F'
+    },
+    team2: {
+        color: '#F67C15'
+    },
     bodyContainer: {
         flex: 1,
         alignItems: 'center',
@@ -219,8 +232,7 @@ const styles = StyleSheet.create({
     },
     letters: {
         fontSize: 25,
-        color: '#f39c12',
-        marginTop: 10
+        color: '#f39c12'
     },
     email: {
         backgroundColor: "#FFFFFF",
@@ -231,6 +243,6 @@ const styles = StyleSheet.create({
     foot: { backgroundColor: '#333', height: 40},
     headText: { color: '#fff', textAlign: 'center' },
     list: { height: 28, backgroundColor: '#f0f0f0' },
-    listText: { textAlign: 'right', marginRight: 6 }
+    listText: { textAlign: 'center' }
 
 });
