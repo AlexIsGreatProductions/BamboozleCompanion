@@ -4,10 +4,10 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 const letters = [
 	['A','B','C','D','E','F'],
-	['G','H','I','J','K',' '],
-	['L','M','N','O','P',' '],
-	['Q','R','S','T','U',' '],
-	['V','W','X','Y','Z',' ']
+	['G','H','I','J','K','*'],
+	['L','M','N','O','P','*'],
+	['Q','R','S','T','U','*'],
+	['V','W','X','Y','Z','*']
 ]
 
 export default class GenerateLettersComponent extends Component {
@@ -21,6 +21,11 @@ export default class GenerateLettersComponent extends Component {
 
 	static defaultProps = {
 	};
+
+    static navigationOptions = {
+        title: 'Generate Letters',
+        header: null
+    };
 
     componentDidMount(){
     	this.generateLetters();
@@ -38,7 +43,14 @@ export default class GenerateLettersComponent extends Component {
 
 	goToTimer(){
 		const {navigate} = this.props.navigation;
-		navigate('Timer', {letters: this.state.newLetters})  //goes to Timer
+        const {params} = this.props.navigation.state;
+        console.log(params);
+		navigate('Timer', {
+            keepScore: params.keepScore,
+			score: params.score,
+            round: params.round,
+            letters: this.state.newLetters
+		});  //goes to Timer
 	}
 
 
@@ -48,7 +60,7 @@ export default class GenerateLettersComponent extends Component {
 			<View style={styles.bodyContainer}>
 				<Text style={styles.textStyle}>Letters are ready!</Text>
 				<TouchableOpacity onPress={() => this.goToTimer()}>
-					<Text style={styles.button}>Start Round</Text>
+					<Text style={styles.button}>Start Round {this.props.navigation.state.params.round}</Text>
 				</TouchableOpacity>
 			</View>
 		)

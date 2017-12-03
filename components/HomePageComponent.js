@@ -19,8 +19,8 @@ export default class HomePageComponent extends Component {
 
 	startGame(keepScore){
         const {navigate} = this.props.navigation;
-        let score = [[0,0]];  //both teams start a 0 for the first round.
-        navigate('Generate', {keepScore: keepScore, score: score})
+        let score = [];  //both teams start a 0 for the first round.
+        navigate('Generate', {keepScore: keepScore, score: score, round: 1})
 	}
 
 	render() {		
@@ -30,9 +30,8 @@ export default class HomePageComponent extends Component {
 				<StatusBar 
 					hidden={true}
 				/>
-				<View>
-		        	<Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
-				</View>
+      
+		        <Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
 		        <TouchableOpacity onPress={() => this.startGame(false)}>
 		        	<Text style={styles.button}>PLAY</Text>
 		        </TouchableOpacity>
