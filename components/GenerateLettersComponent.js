@@ -22,6 +22,11 @@ export default class GenerateLettersComponent extends Component {
 	static defaultProps = {
 	};
 
+    static navigationOptions = {
+        title: 'Generate Letters',
+        header: null
+    };
+
     componentDidMount(){
     	this.generateLetters();
 	}

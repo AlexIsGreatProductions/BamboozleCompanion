@@ -22,6 +22,11 @@ export default class TimerComponent extends Component {
 		console.disableYellowBox = true;
 	}
 
+    static navigationOptions = {
+        title: 'blah blah',
+        header: null
+    };
+
 	toggleStopwatch() {
 		this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false});
 		console.log(seconds);
@@ -87,11 +92,6 @@ export default class TimerComponent extends Component {
 			round: params.round
 		});  //goes to Countdown
 	}
-
-
-	static navigationOptions = {
-		title: 'TIMER SCREEN',
-	};
 
 
 	render() {

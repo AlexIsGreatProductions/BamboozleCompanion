@@ -9,7 +9,7 @@ export default class ScoresComponent extends Component {
 	constructor() {
 		super();
 		this.state = {
-			score: null,
+			score: [],
 			team1Score: 0,
 			team2Score: 0,
 			currentRound: 0,
@@ -20,11 +20,7 @@ export default class ScoresComponent extends Component {
 		}
 	}
 
-	static navigationOptions = {
-		title: 'SCORES SCREEN',
-	};
-
-    componentDidMount(){
+    componentWillMount(){
         this.getCurrentScore();
     }
 
@@ -45,8 +41,7 @@ export default class ScoresComponent extends Component {
 		this.setState({
 			team1Score: temp1,
 			team2Score: temp2
-		})
-		this.teamScores();
+		});
 	}
 
 	changeGest(team, up){
@@ -118,11 +113,12 @@ export default class ScoresComponent extends Component {
     	this.teamScores();
 		const {navigate} = this.props.navigation;
 		const {params} = this.props.navigation.state;
+        let temp = this.state.score;
+        temp.push([this.state.team1Score,this.state.team2Score]);
 		navigate('Totals', {
-			letters: params.letters,
-			score: params.score.push([this.state.team1Score, this.state.team2Score]),
-			keepScore: params.keepScore,
-			round: params.round
+			score: this.state.score,
+			keepScore: this.state.keepScore,
+			round: this.state.currentRound
 		});  //goes to TotalsComponent
 
 	}
@@ -134,8 +130,10 @@ export default class ScoresComponent extends Component {
 		t1s = ((this.state.gests[0] * 2) + (this.state.verbals[0]) - this.state.cheats[0]);
 
 		t2s = ((this.state.gests[1] * 2) + (this.state.verbals[1]) - this.state.cheats[1]);
-
-		this.setState({team1Score: t1s, team2Score: t2s})
+		this.setState({
+			team1Score: t1s,
+			team2Score: t2s
+		})
 	}
 
 	render() {
