@@ -12,6 +12,7 @@ export default class TimerComponent extends Component {
 			  stopwatchReset: false,
 			  maxState: false,
 			  showLetters: false,
+			  showFinish: false,
 			  letterDisplay: ''
 		};
 		this.toggleStopwatch = this.toggleStopwatch.bind(this);
@@ -69,7 +70,7 @@ export default class TimerComponent extends Component {
 
 	showLetters(){
 
-		this.setState({showLetters: true});
+		this.setState({showLetters: true, showFinish: true});
 
 	}
 
@@ -96,15 +97,16 @@ export default class TimerComponent extends Component {
 
 	render() {
 		let opacityText = this.state.showLetters ? 1 : 0;
+		let opacityFinish = this.state.showFinish ? 1 : 0;
 
 		return (
 			<View style={styles.bodyContainer}>
 
 				<Text style={styles.letters}>Round: {this.props.navigation.state.params.round}</Text>
 
-				<Text>Team who Has letters use this</Text>
+				<Text>Get Ready to Create Your Words!</Text>
 
-				<Stopwatch laps msecs start={this.state.stopwatchStart}
+				<Stopwatch msecs start={this.state.stopwatchStart}
 					reset={this.state.stopwatchReset}
 					options={options}
 					getTime={this.getFormattedTime} />
@@ -119,7 +121,7 @@ export default class TimerComponent extends Component {
 
 
 				<TouchableOpacity onPress={() => this.gotoCountdown()}>
-					<Text style={styles.button}>FINISH</Text>
+					<Text style={[styles.button, {opacity: opacityFinish}]}>FINISH</Text>
 				</TouchableOpacity>
 
 				<Text>YOUR LETTERS</Text>
