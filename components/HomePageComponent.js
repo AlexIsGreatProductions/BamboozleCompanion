@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, StyleSheet, TouchableOpacity, StatusBar, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, StatusBar, Dimensions, Image} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 export default class HomePageComponent extends Component {
@@ -31,7 +31,12 @@ export default class HomePageComponent extends Component {
 					hidden={true}
 				/>
       
-		        <Animatable.Text animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.textStyle}>Bamboozle</Animatable.Text>
+		        <Animatable.View animation="shake" iterationCount={'infinite'} direction="alternate" style={styles.logoStyle}>
+		        	<Image 
+	    				source={require('../assets/logo.png')}
+	    				style={{width: 262, height: 82}} />
+
+		        </Animatable.View>
 		        <TouchableOpacity onPress={() => this.startGame(false)}>
 		        	<Text style={styles.button}>PLAY</Text>
 		        </TouchableOpacity>
@@ -52,9 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#3498db',
   },
-  textStyle: {
-    color: '#f39c12',
-    fontSize: 45,
+  logoStyle: {
     top: 20,
     marginBottom: 250,
   },
