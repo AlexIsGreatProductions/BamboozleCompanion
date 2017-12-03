@@ -1,20 +1,20 @@
-#Bamboozle (House Rules)
+# Bamboozle (House Rules)
 
-###Credit for Rules
+### Credit for Rules
 "Since the rules that come with Bamboozle are completely useless since there is no way a team can guess words in less time than it takes the other team to make them up, I’ve completely rewritten the rules."
 [--Kevin Grahmam](https://boardgamegeek.com/filepage/2348/bamboozle-house-rulesdoc)
 
-###Equipment:
+### Equipment:
 * Letter shaker (App will provide)
 * 1 minute timer (App will provide)
 * Pencil and paper for both teams
 
 
-###Setup:
+### Setup:
 * Divide up into two teams
 * Give each team several sheets from the pad and a pen or pencil.
 
-###How To Play:
+### How To Play:
 1.	Pick 1 person from each team to go first.
 2.	Have someone besides the selected players use the letter shaker to get the 5 letters that will be used for the round.  The selected players should not see the letters until the timer is started.
 3.	Start the timer and place the letter shaker where the two selected players can see the letters.
