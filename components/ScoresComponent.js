@@ -143,7 +143,7 @@ export default class ScoresComponent extends Component {
 			<View style={styles.bodyContainer}>
 				<Text style={styles.letters}>Current Round: {this.state.currentRound}</Text>
 				<View style={styles.team}>
-					<Text style={styles.teamTitle}>Team 1</Text>
+					<Text style={[styles.teamTitle, {color: '#C96A9F'}]}>Team 1</Text>
 					<View style={styles.teamRow}>
                         <Text>Gestures Clues: </Text>
                         <Text style={styles.valueText}>{this.state.gests[0]}</Text>
@@ -223,7 +223,7 @@ export default class ScoresComponent extends Component {
                 	</View>
 				</View>
                 <View style={styles.team}>
-                    <Text style={styles.teamTitle}>Team 2</Text>
+                    <Text style={[styles.teamTitle, {color: '#F67C15'}]}>Team 2</Text>
                     <View style={styles.teamRow}>
                         <Text>Gestures Clues: </Text>
                         <Text style={styles.valueText}>{this.state.gests[1]}</Text>
@@ -314,7 +314,7 @@ export default class ScoresComponent extends Component {
 
 const styles = StyleSheet.create({
     bodyContainer: {
-        flex: 10,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#3498db'
@@ -323,22 +323,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 4
+        padding: 2
     },
     team: {
-    	flex: 3,
         flexDirection: 'column',
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 5,
         padding: 1,
-        width: Dimensions.get('window').width*.75
+        width: Dimensions.get('window').width*.75,
+        height: Dimensions.get('window').height*.33
     },
     valueText: {
         backgroundColor: '#FFFFFF',
         left: Dimensions.get('window').width*.55,
-        position: 'absolute'
+        position: 'absolute',
+        textAlign: 'center',
+        height: 20,
+        width: 20,
+        borderRadius: 100
     },
     letters: {
         fontSize: 25,
@@ -351,7 +355,12 @@ const styles = StyleSheet.create({
     },
     teamTitle: {
     	fontSize: 20,
-    	alignSelf: 'center'
+    	alignSelf: 'center',
+	    textShadowColor: '#000000',
+	    textShadowOffset: {
+	      width: 1,
+	      height: 1
+	    }
     },
     score: {
     	alignSelf: 'center'

@@ -75,6 +75,7 @@ export default class CountdownComponent extends Component {
 			])
 		} else {
 			Alert.alert('TIMES UP', 'Would you like to Start a new Round?', [
+				{text: 'Start New Game', onPress: () => navigate('Generate', {round: 1})},
 				{text: 'No', onPress: () => console.log("No Pressed")},
 				{text: 'Yes', onPress: () => navigate('Generate', {
 					score: params.score,
@@ -93,7 +94,7 @@ export default class CountdownComponent extends Component {
 
 				<Text style={styles.letters}>Round: {this.props.navigation.state.params.round}</Text>
 
-				<Text>Team who guesses Letters use this</Text>
+				<Text>Get Ready to Guess Your Words!</Text>
 
 				<Timer totalDuration={this.state.totalDuration} msecs start={this.state.timerStart}
 					reset={this.state.timerReset}
