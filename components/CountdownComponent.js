@@ -55,6 +55,11 @@ export default class CountdownComponent extends Component {
 
 	}
 
+    static navigationOptions = {
+        title: 'blah blah',
+        header: null
+    };
+
 	finishAlert(){
 		const {navigate} = this.props.navigation;
 		const {params} = this.props.navigation.state;
@@ -79,10 +84,6 @@ export default class CountdownComponent extends Component {
 			])
 		}
 	}
-
-	static navigationOptions = {
-		title: 'COUNTDOWN SCREEN',
-	};
 
 	render() {
 		let opacityText = this.state.showLetters ? 1 : 0
