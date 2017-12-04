@@ -215,14 +215,20 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center'
     },
-    winner: {
-        fontSize: 25
-    },
     team1: {
         color: '#C96A9F'
     },
     team2: {
         color: '#F67C15'
+    },
+    winner: {
+        fontSize: 25,
+        alignSelf: 'center',
+        textShadowColor: '#000000',
+        textShadowOffset: {
+            width: 1,
+            height: 1
+        }
     },
     bodyContainer: {
         flex: 1,
